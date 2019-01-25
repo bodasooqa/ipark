@@ -36,7 +36,7 @@
             toggleSidebar() {
                 this.$store.commit('toggle');
             }
-        }
+        },
     }
 </script>
 

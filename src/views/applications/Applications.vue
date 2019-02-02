@@ -18,14 +18,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="app in apps" :key="app.ip">
-                        <td>{{app.name}}</td>
-                        <td>{{app.type}}</td>
-                        <td>{{app.park}}</td>
-                        <td>{{app.ip}}</td>
+                    <tr v-for="app in apps" :key="app.appObjid">
+                        <td>{{app.appName}}</td>
+                        <td>{{app.appType.appTypeDescription}}</td>
+                        <td>{{app.appPark.parkName}}</td>
+                        <td>{{app.appIpAddress}}</td>
                         <td class="text-center">
-                            <button @click="editApp(app.id)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
-                            <button @click="showModal(app.id)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <button @click="editApp(app.appObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
+                            <button @click="showModal(app.appObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
@@ -34,7 +34,7 @@
         </div>
         <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
 
-        <transition name="fade-modal">
+        <transition name="fade">
             <div v-if="modalState" class="modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -45,7 +45,7 @@
                             <p>Действительно удалить {{currentApp}}?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success">Удалить</button>
+                            <button @click="deleteApp()" type="button" class="btn btn-success">Удалить</button>
                             <button @click="modalState = false" type="button" class="btn btn-danger">Отмена</button>
                         </div>
                     </div>
@@ -55,77 +55,42 @@
 
         <div v-if="modalState" class="modal-backdrop fade show"></div>
 
+        <transition name="fade">
+            <div v-if="this.notificationState" class="alert alert-success" role="alert">Успешно удалено</div>
+        </transition>
+
     </div>
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         name: "Applications",
         data: () => {
             return {
-                apps: [
-                    {
-                        id: '1',
-                        name: 'Касса 3',
-                        type: 'Касса',
-                        park: 'park1',
-                        ip: '192.168.0.5'
-                    },
-                    {
-                        id: '2',
-                        name: 'Касса 2',
-                        type: 'Касса',
-                        park: 'park1',
-                        ip: '192.168.0.6'
-                    },
-                    {
-                        id: '3',
-                        name: 'Касса 4',
-                        type: 'Касса',
-                        park: 'park1',
-                        ip: '192.168.0.8'
-                    },
-                    {
-                        id: '4',
-                        name: 'Касса 1',
-                        type: 'Касса',
-                        park: 'park1',
-                        ip: '192.168.0.9'
-                    },
-                ],
                 theads: [
-                    {
-                        name: 'Наименование',
-                        type: 'compareString',
-                        param: 'name'
-                    },
-                    {
-                        name: 'Тип',
-                        type: 'compareString',
-                        param: 'type'
-                    },
-                    {
-                        name: 'Парк',
-                        type: 'compareString',
-                        param: 'park'
-                    },
-                    {
-                        name: 'IP-адрес',
-                        type: 'compareString',
-                        param: 'ip'
-                    },
-                    {
-                        name: 'Действия'
-                    },
+                    { name: 'Наименование', type: 'compareString', param: 'name' },
+                    { name: 'Тип', type: 'compareString', param: 'type' },
+                    { name: 'Парк', type: 'compareString', param: 'park' },
+                    { name: 'IP-адрес', type: 'compareString', param: 'ip' },
+                    { name: 'Действия' },
                 ],
                 modalState: false,
                 currentApp: null,
                 sortParam: null
             }
         },
+        computed: {
+            ...mapGetters(['apps', 'notificationState'])
+        },
         methods: {
             editApp(id) {
                 this.$router.push(`/applications/edit/${id}`);
+            },
+            deleteApp() {
+                this.$store.dispatch('deleteApp', this.currentApp);
+                this.modalState = false;
             },
             showModal(id) {
                 this.currentApp = id;
@@ -148,8 +113,9 @@
                 return 0;
             }
         },
-        mounted() {
-            this.sortData('name', 'compareString');
+        async mounted() {
+            this.$store.dispatch('setApps');
+            // this.sortData('appName', 'compareString');
         }
     }
 </script>
@@ -162,16 +128,21 @@
         cursor: pointer;
     }
 
-    .fade-modal-enter {
+    .alert {
+        position: absolute;
+        width: 100%;
+    }
+
+    .fade-enter {
         opacity: 0;
     }
 
-    .fade-modal-leave-active {
+    .fade-leave-active {
         opacity: 0;
     }
 
-    .fade-modal-enter .fade-modal-container,
-    .fade-modal-leave-active .fade-modal-container {
+    .fade-enter .fade-container,
+    .fade-leave-active .fade-container {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }

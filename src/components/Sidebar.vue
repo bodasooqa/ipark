@@ -1,7 +1,7 @@
 <template>
     <ul class="sidebar navbar-nav" :class="{toggled: toggled}">
         <li v-for="item in sidebarMenu" :key="item.url" class="nav-item">
-            <router-link class="nav-link" :to="item.url">
+            <router-link class="nav-link" :to="`/${item.url}`">
                 <i class="fa-fw" :class="item.icon"></i>
                 <span>{{item.name}}</span>
             </router-link>
@@ -33,6 +33,7 @@
         .nav-item {
             .nav-link.router-link-active {
                 color: $white;
+                background-color: rgba(255, 255, 255, 0.04);
             }
             &.dropdown {
                 .dropdown-toggle {
@@ -123,6 +124,11 @@
                     text-align: left;
                     padding: 1rem;
                     width: $sidebar-base-width;
+                    -webkit-transition: all 0.2s;
+                    -moz-transition: all 0.2s;
+                    -ms-transition: all 0.2s;
+                    -o-transition: all 0.2s;
+                    transition: all 0.2s;
                     span {
                         font-size: 1rem;
                         display: inline;

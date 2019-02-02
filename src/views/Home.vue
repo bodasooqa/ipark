@@ -27,8 +27,15 @@ export default {
     font-size: 3rem;
   }
   .card {
+    text-decoration: none;
     span {
+      color: #555;
       text-align: center;
+    }
+    &:hover {
+      span {
+        color: #000;
+      }
     }
   }
 </style>

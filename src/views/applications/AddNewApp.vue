@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-plus mr-2"></i>Добавить новое приложение</div>
         <div class="card-body">
-            <form @submit.prevent="saveApp">
+            <form @submit.prevent="addApp">
                 <div class="form-group">
                     <label for="">Наименование</label>
                     <input v-model="app.name" type="text" class="form-control" required placeholder="Наименование">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     class App {
         constructor(name, ip, type, park) {
@@ -52,20 +52,22 @@
             }
         },
         computed: {
-            ...mapGetters(['parks', 'types'])
+            ...mapGetters('appModule', ['parks', 'types'])
         },
         methods: {
-            saveApp() {
-                this.$store.dispatch('saveApp', this.app);
+            ...mapActions('appModule', ['saveApp', 'setParks', 'setTypes']),
+
+            addApp() {
+                this.saveApp(this.app);
                 this.$router.go(-1);
             }
         },
         created() {
             if (!this.$store.parks) {
-                this.$store.dispatch('setParks');
+                this.setParks();
             }
             if (!this.$store.types) {
-                this.$store.dispatch('setTypes');
+                this.setTypes();
             }
         }
     }

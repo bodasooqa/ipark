@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить приложение</div>
         <div class="card-body">
-            <form @submit.prevent="saveApp">
+            <form @submit.prevent="saveApp(app)">
                 <div class="form-group">
                     <label for="">Наименование</label>
                     <input v-model="app.appName" type="text" class="form-control" required placeholder="Наименование">
@@ -30,38 +30,39 @@
             </form>
         </div>
         <transition name="fade">
-            <div v-if="this.notificationState" class="alert alert-success" role="alert">Успешно сохранено</div>
+            <div v-if="this.notification.state" class="alert alert-success" role="alert">{{notification.message}}</div>
         </transition>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
 
     export default {
         name: "EditApp",
         computed: {
+            ...mapGetters(['parks', 'types']),
+            ...mapGetters('appModule', ['notification', 'apps', 'app', 'parks', 'types']),
+
             id() {
                 return this.$route.params.id;
-            },
-            ...mapGetters(['apps', 'parks', 'types', 'app', 'notificationState'])
+            }
         },
         methods: {
-            saveApp() {
-                this.$store.dispatch('saveApp', this.app);
-            }
+            ...mapActions('appModule', ['setApps', 'saveApp', 'setTypes', 'setParks']),
+            ...mapMutations('appModule', ['setApp']),
         },
         created() {
             if (!this.$store.state.apps) {
-                this.$store.dispatch('setApps');
+                this.setApps();
             }
-            if (!this.$store.parks) {
-                this.$store.dispatch('setParks');
+            if (!this.$store.state.parks) {
+                this.setParks();
             }
             if (!this.$store.types) {
-                this.$store.dispatch('setTypes');
+                this.setTypes();
             }
-            this.$store.commit('setApp', this.id);
+            this.setApp(this.id);
         }
     }
 </script>

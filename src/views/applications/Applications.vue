@@ -3,7 +3,10 @@
         <div class="card-header"><i class="fas fa-table mr-2"></i>Приложения</div>
         <div class="card-body">
             <button @click="$router.push('applications/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
-            <button @click="exportAll" class="btn btn-primary mr-2 mb-3">Экспорт</button>
+
+            <download-excel class="d-inline-block" :data="excelData">
+                <button class="btn btn-primary mr-2 mb-3">Экспорт</button>
+            </download-excel>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -45,7 +48,7 @@
                             <p>Действительно удалить {{currentApp}}?</p>
                         </div>
                         <div class="modal-footer">
-                            <button @click="deleteApp()" type="button" class="btn btn-success">Удалить</button>
+                            <button @click="removeApp(currentApp)" type="button" class="btn btn-success">Удалить</button>
                             <button @click="modalState = false" type="button" class="btn btn-danger">Отмена</button>
                         </div>
                     </div>
@@ -56,14 +59,14 @@
         <div v-if="modalState" class="modal-backdrop fade show"></div>
 
         <transition name="fade">
-            <div v-if="this.notificationState" class="alert alert-success" role="alert">Успешно удалено</div>
+            <div v-if="this.notification.state" class="alert alert-success" role="alert">{{notification.message}}</div>
         </transition>
 
     </div>
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
         name: "Applications",
@@ -82,15 +85,17 @@
             }
         },
         computed: {
-            ...mapGetters(['apps', 'notificationState'])
+            ...mapGetters('appModule', ['apps', 'notification', 'excelData']),
         },
         methods: {
+            ...mapActions('appModule', ['setApps', 'deleteApp']),
             editApp(id) {
                 this.$router.push(`/applications/edit/${id}`);
             },
-            deleteApp() {
-                this.$store.dispatch('deleteApp', this.currentApp);
+            removeApp(id) {
+                this.deleteApp(id);
                 this.modalState = false;
+                this.setApps();
             },
             showModal(id) {
                 this.currentApp = id;
@@ -114,7 +119,7 @@
             }
         },
         async mounted() {
-            this.$store.dispatch('setApps');
+            this.setApps();
             // this.sortData('appName', 'compareString');
         }
     }

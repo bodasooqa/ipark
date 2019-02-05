@@ -41,16 +41,15 @@
     export default {
         name: "EditApp",
         computed: {
-            ...mapGetters(['parks', 'types']),
-            ...mapGetters('appModule', ['notification', 'apps', 'app', 'parks', 'types']),
+            ...mapGetters('appsModule', ['notification', 'apps', 'app', 'parks', 'types']),
 
             id() {
                 return this.$route.params.id;
             }
         },
         methods: {
-            ...mapActions('appModule', ['setApps', 'saveApp', 'setTypes', 'setParks']),
-            ...mapMutations('appModule', ['setApp']),
+            ...mapActions('appsModule', ['setApps', 'saveApp', 'setTypes', 'setParks']),
+            ...mapMutations('appsModule', ['setApp']),
         },
         created() {
             if (!this.$store.state.apps) {

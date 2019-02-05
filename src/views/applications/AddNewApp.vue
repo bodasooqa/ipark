@@ -52,10 +52,10 @@
             }
         },
         computed: {
-            ...mapGetters('appModule', ['parks', 'types'])
+            ...mapGetters('appsModule', ['parks', 'types'])
         },
         methods: {
-            ...mapActions('appModule', ['saveApp', 'setParks', 'setTypes']),
+            ...mapActions('appsModule', ['saveApp', 'setParks', 'setTypes']),
 
             addApp() {
                 this.saveApp(this.app);

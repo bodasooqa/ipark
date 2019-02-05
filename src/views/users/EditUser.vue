@@ -2,53 +2,96 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить пользователя</div>
         <div class="card-body">
-            <form @submit.prevent="editUser">
+            <form @submit.prevent="saveUser(user)">
                 <div class="form-group">
                     <label for="">ФИО</label>
-                    <input v-model="user.name" type="text" class="form-control" id="" aria-describedby="" required placeholder="Наименование">
+                    <input v-model="user.userFio" type="text" class="form-control" required placeholder="Наименование">
                 </div>
-                <div class="form-group">
-                    <label for="">Пароль</label>
-                    <input v-model="user.password" type="password" class="form-control" id="" aria-describedby="" required placeholder="Пароль">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="">Пароль</label>
+                        <div class="input-group">
+                            <input v-model="user.password" type="password" class="form-control" :disabled="lockedPassword" :required="user.password" placeholder="Пароль">
+                            <div class="input-group-append">
+                                <button @click="lockPassword" class="btn btn-secondary" type="button">
+                                    <i v-if="lockedPassword" class="fas fa-lock"></i>
+                                    <i v-if="!lockedPassword" class="fas fa-unlock"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="">Пароль повторно:</label>
+                        <input v-model="checkPassword" @change="changePassword = !changePassword" type="password" class="form-control" :class="{'is-invalid': !checkPass && changePassword}" :disabled="!user.password || lockedPassword" :required="checkPassword" placeholder="Пароль повторно">
+                        <div class="invalid-feedback">Пароли не совпадают</div>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input v-model="user.available" type="checkbox" class="form-check-input" id="">
+                <div class="form-check my-3">
+                    <input v-model="user.userEnabled" type="checkbox" class="form-check-input">
                     <label class="form-check-label" for="">Доступен</label>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2">Отправить</button>
+                <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
                 <button @click="$router.go(-1)" type="button" class="btn btn-danger">Отмена</button>
             </form>
         </div>
+
+        <transition name="fade">
+            <div v-if="this.notification.state" class="alert alert-success" role="alert">{{notification.message}}</div>
+        </transition>
     </div>
 </template>
 
 <script>
-    class User {
-        constructor(id) {
-            this.id = id;
-            this.name = id;
-            this.username = id;
-            this.available = id;
-        }
-    }
+    import {mapActions, mapGetters, mapMutations} from "vuex";
+
     export default {
         name: "EditUser",
         data: () => {
             return {
-                user: new User(),
+                checkPassword: null,
+                lockedPassword: true,
+                changePassword: false
             }
         },
         computed: {
+            ...mapGetters('usersModule', ['notification', 'users', 'user']),
             id() {
                 return this.$route.params.id;
+            },
+            checkPass() {
+                return this.checkPassword === this.user.password;
             }
         },
-        mounted() {
-            this.user = new User(this.id);
+        methods: {
+            ...mapActions('usersModule', ['setUsers', 'saveUser']),
+            ...mapMutations('usersModule', ['setUser']),
+            lockPassword() {
+                if (!this.lockedPassword) {
+                    this.user.password = '';
+                    this.checkPassword = '';
+                }
+                this.lockedPassword = !this.lockedPassword;
+            }
+        },
+        created() {
+            if (!this.$store.state.users) {
+                this.setUsers();
+            }
+            this.setUser(this.id);
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .alert {
+        position: absolute;
+        width: 100%;
+    }
 
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
 </style>

@@ -18,12 +18,12 @@
                     </thead>
                     <tbody>
                     <tr v-for="user in users" :key="user.id">
-                        <td>{{user.name}}</td>
-                        <td>{{user.username}}</td>
-                        <td>{{user.available}}</td>
+                        <td>{{user.userFio}}</td>
+                        <td>{{user.userName}}</td>
+                        <td><input @change="changeEn(user)" type="checkbox" v-model="user.userEnabled"></td>
                         <td class="text-center">
-                            <button @click="editApp(user.id)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
-                            <button @click="showModal(user.id)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <button @click="editUser(user.userObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
+                            <button @click="showModal(user.userObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
@@ -43,7 +43,7 @@
                             <p>Действительно удалить {{currentUser}}?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success">Удалить</button>
+                            <button @click="removeUser(currentUser)" type="button" class="btn btn-success">Удалить</button>
                             <button @click="modalState = false" type="button" class="btn btn-danger">Отмена</button>
                         </div>
                     </div>
@@ -57,64 +57,35 @@
 </template>
 
 <script>
+    import {mapActions, mapGetters} from "vuex";
+
     export default {
         name: "Users",
         data: () => {
             return {
-                users: [
-                    {
-                        id: '1',
-                        name: 'Сигизмунд Тарковски',
-                        username: 'chava',
-                        available: false,
-                    },
-                    {
-                        id: '2',
-                        name: 'Уильям Бростон',
-                        username: 'journey',
-                        available: true,
-                    },
-                    {
-                        id: '3',
-                        name: 'Амодей Грондсон',
-                        username: 'bodasooqa',
-                        available: true,
-                    },
-                    {
-                        id: '4',
-                        name: 'Руслан Романов',
-                        username: 'boda',
-                        available: false,
-                    },
-                ],
                 theads: [
-                    {
-                        name: 'ФИО',
-                        type: 'compareString',
-                        param: 'name'
-                    },
-                    {
-                        name: 'Пользователь',
-                        type: 'compareString',
-                        param: 'username'
-                    },
-                    {
-                        name: 'Включен',
-                        type: 'compareString',
-                        param: 'available'
-                    },
-                    {
-                        name: 'Действия'
-                    },
+                    { name: 'ФИО', type: 'compareString', param: 'name' },
+                    { name: 'Пользователь',type: 'compareString',param: 'username' },
+                    { name: 'Включен',type: 'compareString',param: 'available' },
+                    { name: 'Действия' },
                 ],
                 modalState: false,
                 currentUser: null,
                 sortParam: null
             }
         },
+        computed: {
+            ...mapGetters('usersModule', ['users', 'notification']),
+        },
         methods: {
-            editApp(id) {
+            ...mapActions('usersModule', ['setUsers', 'deleteUser', 'saveUser']),
+            editUser(id) {
                 this.$router.push(`/users/edit/${id}`);
+            },
+            removeUser(id) {
+                this.deleteUser(id);
+                this.modalState = false;
+                this.setUsers();
             },
             showModal(id) {
                 this.currentUser = id;
@@ -132,10 +103,14 @@
                 if(a[this.sortParam] < b[this.sortParam]) return -1;
                 if(a[this.sortParam] > b[this.sortParam]) return 1;
                 return 0;
+            },
+            changeEn(user) {
+                this.saveUser(user);
             }
         },
-        mounted() {
-            this.sortData('name', 'compareString');
+        async mounted() {
+            // this.sortData('name', 'compareString');
+            this.setUsers();
         }
     }
 </script>

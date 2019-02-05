@@ -85,10 +85,10 @@
             }
         },
         computed: {
-            ...mapGetters('appModule', ['apps', 'notification', 'excelData']),
+            ...mapGetters('appsModule', ['apps', 'notification', 'excelData']),
         },
         methods: {
-            ...mapActions('appModule', ['setApps', 'deleteApp']),
+            ...mapActions('appsModule', ['setApps', 'deleteApp']),
             editApp(id) {
                 this.$router.push(`/applications/edit/${id}`);
             },
@@ -100,9 +100,6 @@
             showModal(id) {
                 this.currentApp = id;
                 this.modalState = true;
-            },
-            exportAll() {
-                console.log('exported');
             },
             sortData(prop, type) {
                 if (this.sortParam === prop) {

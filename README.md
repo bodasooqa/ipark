@@ -1,29 +1,29 @@
 # ipark
 
-## Project setup
-```
+## Запуск проекта
+
+Выполнить следующую команду для установки зависимостей:
+
+```shell
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+Веб-сервер запускается командой:
+
+```shell
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
+Сборка проекта запускается командой:
+
+```shell
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
+## Настройка среды
 
-### Lints and fixes files
-```
-npm run lint
-```
+В корне проекта находится файл `.env`, его следует отредактировать, указав корректный хост:
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```dotenv
+VUE_APP_HOST=hostname
+```

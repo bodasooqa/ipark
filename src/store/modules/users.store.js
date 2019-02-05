@@ -39,7 +39,7 @@ export default {
     },
     actions: {
         async setUsers(context) {
-            let {data} = await axios.get('http://localhost:9000/user/get', {
+            let {data} = await axios.get(`${process.env.VUE_APP_HOST}/user/get`, {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
             context.commit('setUsers', data);
@@ -68,7 +68,7 @@ export default {
                 userData.userPassword = payload.password;
             }
 
-            axios.post('http://localhost:9000/user/save', userData,{
+            axios.post(`${process.env.VUE_APP_HOST}/user/save`, userData,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ export default {
                 userObjid: payload
             };
 
-            axios.post('http://localhost:9000/user/delete', data,{
+            axios.post(`${process.env.VUE_APP_HOST}/user/delete`, data,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'

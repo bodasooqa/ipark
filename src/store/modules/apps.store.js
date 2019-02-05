@@ -67,7 +67,7 @@ export default {
     },
     actions: {
         async setApps(context) {
-            let {data} = await axios.get('http://localhost:9000/app/get', {
+            let {data} = await axios.get(`${process.env.VUE_APP_HOST}/app/get`, {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
             context.commit('setApps', data);
@@ -101,7 +101,7 @@ export default {
                 }
             };
 
-            axios.post('http://localhost:9000/app/save', data(),{
+            axios.post(`${process.env.VUE_APP_HOST}/app/save`, data(),{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ export default {
                 appObjid: payload
             };
 
-            axios.post('http://localhost:9000/app/delete', data,{
+            axios.post(`${process.env.VUE_APP_HOST}/app/delete`, data,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'
@@ -138,7 +138,7 @@ export default {
         },
 
         async setParks(context) {
-            let {data} = await axios.get('http://localhost:9000/park/get', {
+            let {data} = await axios.get(`${process.env.VUE_APP_HOST}/park/get`, {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
 
@@ -146,7 +146,7 @@ export default {
         },
 
         async setTypes(context) {
-            let {data} = await axios.get('http://localhost:9000/appType/get', {
+            let {data} = await axios.get(`${process.env.VUE_APP_HOST}/appType/get`, {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
 

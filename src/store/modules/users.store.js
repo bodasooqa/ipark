@@ -9,6 +9,7 @@ export default {
             state: false,
             message: null
         },
+        priv: null
     },
     getters: {
         users(state) {
@@ -20,6 +21,9 @@ export default {
         notification(state) {
             return state.notification;
         },
+        priv(state) {
+            return state.priv;
+        }
     },
     mutations: {
         setUsers(state, users) {
@@ -35,6 +39,9 @@ export default {
         deleteUser(state, id) {
             const indexToRemove = state.users.findIndex(item => item.userObjid === id);
             state.users = state.users.slice(indexToRemove, 1);
+        },
+        setPriv(state, priv) {
+            state.priv = priv;
         },
     },
     actions: {
@@ -102,5 +109,49 @@ export default {
                 context.dispatch('setUsers');
             });
         },
+        async setPriv(context, payload) {
+            let {data} = await axios.post(`${process.env.VUE_APP_HOST}/userPrivileges/get`,
+                {
+                    userPrivilegeMainobjid: payload
+                },
+                {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            context.commit('setPriv', data);
+        },
+        async changePriv(context, payload) {
+            if (payload.state === true) {
+                await axios.post(`${process.env.VUE_APP_HOST}/userPrivileges/save`,
+                    {
+                        userPrivilegeMainobjid: payload.uid,
+                        privilegeId: payload.id,
+                        privilegeName: payload.name,
+                        privilegeDescription: payload.desc,
+                        checked: payload.state
+                    },
+                    {
+                        headers: {
+                            'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+            } else {
+                await axios.post(`${process.env.VUE_APP_HOST}/userPrivileges/delete`,
+                    {
+                        userPrivilegeMainobjid: payload.uid,
+                        privilegeId: payload.id
+                    },
+                    {
+                        headers: {
+                            'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+            }
+        }
     }
 };

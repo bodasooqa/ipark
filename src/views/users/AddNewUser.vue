@@ -16,12 +16,13 @@
                     <input v-model="user.password" type="password" class="form-control" required placeholder="Пароль">
                 </div>
                 <div class="form-check mb-3">
-                    <input v-model="user.userEnabled" type="checkbox" class="form-check-input">
-                    <label class="form-check-label" for="">Доступен</label>
+                    <input id="enabled" v-model="user.userEnabled" type="checkbox" class="form-check-input">
+                    <label class="form-check-label" for="enabled">Доступен</label>
                 </div>
                 <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
                 <button @click="$router.go(-1)" type="button" class="btn btn-danger">Отмена</button>
             </form>
+            <small>Вы сможете добавить привилегии после создания пользователя.</small>
         </div>
     </div>
 </template>

@@ -32,7 +32,7 @@
         </div>
         <!--<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
 
-        <transition name="fade-modal">
+        <transition name="fade">
             <div v-if="modalState" class="modal">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -51,7 +51,9 @@
             </div>
         </transition>
 
-        <div v-if="modalState" class="modal-backdrop fade show"></div>
+        <transition name="fade">
+            <div v-if="modalState" class="modal-backdrop fade show"></div>
+        </transition>
 
     </div>
 </template>
@@ -123,17 +125,19 @@
         cursor: pointer;
     }
 
-    .fade-modal-enter {
-        opacity: 0;
-    }
+    .card {
+        .fade-enter {
+            opacity: 0;
+        }
 
-    .fade-modal-leave-active {
-        opacity: 0;
-    }
+        .fade-leave-active {
+            opacity: 0;
+        }
 
-    .fade-modal-enter .fade-modal-container,
-    .fade-modal-leave-active .fade-modal-container {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+        .fade-enter .fade-container,
+        .fade-leave-active .fade-container {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
     }
 </style>

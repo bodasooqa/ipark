@@ -1,12 +1,8 @@
 <template>
     <div class="card mb-3">
-        <div class="card-header"><i class="fas fa-table mr-2"></i>Приложения</div>
+        <div class="card-header"><i class="fas fa-table mr-2"></i>Атракционы</div>
         <div class="card-body">
-            <button @click="$router.push('applications/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
-
-            <download-excel class="d-inline-block" :data="excelData">
-                <button class="btn btn-primary mr-2 mb-3">Экспорт</button>
-            </download-excel>
+            <button @click="$router.push('attractions/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -21,14 +17,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="app in apps" :key="app.appObjid">
-                        <td>{{app.appName}}</td>
-                        <td>{{app.appType.appTypeDescription}}</td>
-                        <td>{{app.appPark.parkName}}</td>
-                        <td>{{app.appIpAddress}}</td>
+                    <tr v-for="attr in attrs" :key="attr.atrObjid">
+                        <td>{{attr.atrDevice.atrDeviceDevAddress}}</td>
+                        <td>{{attr.atrCode}}</td>
+                        <td>{{attr.atrName}}</td>
+                        <td>{{attr.atrMsgtime}}</td>
+                        <td>{{attr.atrEnabled}}</td>
                         <td class="text-center">
-                            <button @click="editApp(app.appObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
-                            <button @click="showModal(app.appObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            <button @click="editAttr(attr.atrObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
+                            <button @click="showModal(attr.atrObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     </tbody>
@@ -45,10 +42,10 @@
                             <h5 class="modal-title">Удаление</h5>
                         </div>
                         <div class="modal-body">
-                            <p>Действительно удалить {{currentApp}}?</p>
+                            <p>Действительно удалить {{currentAttr}}?</p>
                         </div>
                         <div class="modal-footer">
-                            <button @click="removeApp(currentApp)" type="button" class="btn btn-success">Удалить</button>
+                            <button @click="removeAttr(currentAttr)" type="button" class="btn btn-success">Удалить</button>
                             <button @click="modalState = false" type="button" class="btn btn-danger">Отмена</button>
                         </div>
                     </div>
@@ -71,44 +68,45 @@
     import {mapActions, mapGetters} from "vuex";
 
     export default {
-        name: "Applications",
+        name: "Attrlications",
         data: () => {
             return {
                 theads: [
-                    { name: 'Наименование', type: 'compareString', param: 'name' },
-                    { name: 'Тип', type: 'compareString', param: 'type' },
-                    { name: 'Парк', type: 'compareString', param: 'park' },
-                    { name: 'IP-адрес', type: 'compareString', param: 'ip' },
+                    { name: 'Устройство', type: 'compareString', param: 'name' },
+                    { name: 'Режим', type: 'compareString', param: 'atrCode' },
+                    { name: 'Наименование', type: 'compareString', param: 'atrName' },
+                    { name: 'Таймаут сообщения (мс)', type: 'compareString', param: 'atrMsgtime' },
+                    { name: 'Активен', type: 'compareString', param: 'atrEnabled' },
                     { name: 'Действия' },
                 ],
                 modalState: false,
-                currentApp: null,
+                currentAttr: null,
                 sortParam: null
             }
         },
         computed: {
-            ...mapGetters('appsModule', ['apps', 'notification', 'excelData']),
+            ...mapGetters('attrsModule', ['attrs', 'notification']),
         },
         methods: {
-            ...mapActions('appsModule', ['setApps', 'deleteApp']),
-            editApp(id) {
-                this.$router.push(`/applications/edit/${id}`);
+            ...mapActions('attrsModule', ['setAttrs', 'deleteAttr']),
+            editAttr(id) {
+                this.$router.push(`/attractions/edit/${id}`);
             },
-            removeApp(id) {
-                this.deleteApp(id);
+            removeAttr(id) {
+                this.deleteAttr(id);
                 this.modalState = false;
-                this.setApps();
+                this.setAttrs();
             },
             showModal(id) {
-                this.currentApp = id;
+                this.currentAttr = id;
                 this.modalState = true;
             },
             sortData(prop, type) {
                 if (this.sortParam === prop) {
-                    this.apps.reverse();
+                    this.attrs.reverse();
                 } else {
                     this.sortParam = prop;
-                    this.apps.sort(this[type]);
+                    this.attrs.sort(this[type]);
                 }
             },
             compareString(a, b) {
@@ -118,8 +116,8 @@
             }
         },
         async mounted() {
-            this.setApps();
-            // this.sortData('appName', 'compareString');
+            this.setAttrs();
+            // this.sortData('attrName', 'compareString');
         }
     }
 </script>

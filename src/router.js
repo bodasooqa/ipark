@@ -7,6 +7,9 @@ import EditApp from "./views/applications/EditApp";
 import Users from "./views/users/Users";
 import EditUser from "./views/users/EditUser";
 import AddNewUser from "./views/users/AddNewUser";
+import Attractions from "./views/attractions/Attractions";
+import AddNewAttr from "./views/attractions/AddNewAttr";
+import EditAttr from "./views/attractions/EditAttr";
 
 Vue.use(Router);
 
@@ -48,6 +51,21 @@ export default new Router({
             path: '/users/edit/:id',
             name: 'edit-user',
             component: EditUser
+        },
+        {
+            path: '/attractions',
+            name: 'attractions',
+            component: Attractions
+        },
+        {
+            path: '/attraction/add-new',
+            name: 'add-new-attr',
+            component: AddNewAttr
+        },
+        {
+            path: '/attractions/edit/:id',
+            name: 'edit-attr',
+            component: EditAttr
         },
     ]
 });

@@ -22,7 +22,9 @@
                         <td>{{attr.atrCode}}</td>
                         <td>{{attr.atrName}}</td>
                         <td>{{attr.atrMsgtime}}</td>
-                        <td>{{attr.atrEnabled}}</td>
+                        <td>
+                            <input v-model="attr.atrEnabled" @change="saveAttr(attr)" type="checkbox">
+                        </td>
                         <td class="text-center">
                             <button @click="editAttr(attr.atrObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
                             <button @click="showModal(attr.atrObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -88,7 +90,7 @@
             ...mapGetters('attrsModule', ['attrs', 'notification']),
         },
         methods: {
-            ...mapActions('attrsModule', ['setAttrs', 'deleteAttr']),
+            ...mapActions('attrsModule', ['setAttrs', 'deleteAttr', 'saveAttr']),
             editAttr(id) {
                 this.$router.push(`/attractions/edit/${id}`);
             },

@@ -9,6 +9,7 @@ export default {
             state: false,
             message: null
         },
+        devices: null
     },
     getters: {
         attrs(state) {
@@ -19,6 +20,9 @@ export default {
         },
         notification(state) {
             return state.notification;
+        },
+        devices(state) {
+            return state.devices;
         }
     },
     mutations: {
@@ -35,6 +39,12 @@ export default {
         setNotification(state, message) {
             state.notification.state = !state.notification.state;
             state.notification.message = message;
+        },
+        setDevices(state, devices) {
+            state.devices = devices;
+        },
+        setDevice(state, id) {
+            state.attr.atrDevice = state.devices.find(item => item.atrDeviceObjid === id);
         }
     },
     actions: {
@@ -46,34 +56,7 @@ export default {
         },
 
         saveAttr(context, payload) {
-            const data = () => {
-                if (payload.atrObjid) {
-                    return {
-                        atrObjid: payload.atrObjid,
-                        attrPark: {
-                            parkId: payload.attrPark.parkId,
-                        },
-                        attrType: {
-                            attrTypeId: payload.attrType.attrTypeId
-                        },
-                        attrIpAddress: payload.attrIpAddress,
-                        attrName: payload.attrName,
-                    };
-                } else {
-                    return {
-                        attrPark: {
-                            parkId: payload.park,
-                        },
-                        attrType: {
-                            attrTypeId: payload.type
-                        },
-                        attrIpAddress: payload.ip,
-                        attrName: payload.name,
-                    };
-                }
-            };
-
-            axios.post(`${process.env.VUE_APP_HOST}/atr/save`, data(),{
+            axios.post(`${process.env.VUE_APP_HOST}/atr/save`, payload,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'
@@ -108,5 +91,20 @@ export default {
                 context.dispatch('setAttrs');
             });
         },
+
+        async setDevices(context, payload) {
+            const reqData = {
+                atrDeviceMainobjid: payload
+            };
+
+            let {data} = await axios.post(`${process.env.VUE_APP_HOST}/atrDevice/get`, reqData, {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            context.commit('setDevices', data);
+        }
     }
 };

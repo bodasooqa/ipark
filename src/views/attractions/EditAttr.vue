@@ -5,8 +5,9 @@
             <form @submit.prevent="saveAttr(attr)">
                 <div class="form-group">
                     <label for="">Устройство</label>
-                    <select v-model="attr.atrDevice.atrDeviceDevAddress" class="form-control" required>
+                    <select @change="setDevice($event.target.value)" :value="attr.atrDevice.atrDeviceObjid" class="form-control" required>
                         <option disabled selected>Парк</option>
+                        <option v-for="device in devices" :value="device.atrDeviceObjid" :key="device.parkId">{{device.atrDeviceDevAddress}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -61,21 +62,22 @@
     export default {
         name: "EditAttr",
         computed: {
-            ...mapGetters('attrsModule', ['notification', 'attrs', 'attr']),
+            ...mapGetters('attrsModule', ['notification', 'attrs', 'attr', 'devices']),
 
             id() {
                 return this.$route.params.id;
             }
         },
         methods: {
-            ...mapActions('attrsModule', ['setAttrs', 'saveAttr']),
-            ...mapMutations('attrsModule', ['setAttr']),
+            ...mapActions('attrsModule', ['setAttrs', 'saveAttr', 'setDevices']),
+            ...mapMutations('attrsModule', ['setAttr', 'setDevice'])
         },
         created() {
             if (!this.$store.state.attrs) {
                 this.setAttrs();
             }
             this.setAttr(this.id);
+            this.setDevices(this.attr.atrDevice.atrDeviceMainobjid);
         }
     }
 </script>

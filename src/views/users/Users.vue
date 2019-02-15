@@ -20,7 +20,7 @@
                     <tr v-for="user in users" :key="user.id">
                         <td>{{user.userFio}}</td>
                         <td>{{user.userName}}</td>
-                        <td><input @change="changeEn(user)" type="checkbox" v-model="user.userEnabled"></td>
+                        <td><input @change="saveUser(user)" type="checkbox" v-model="user.userEnabled"></td>
                         <td class="text-center">
                             <button @click="editUser(user.userObjid)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-pen"></i></button>
                             <button @click="showModal(user.userObjid)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -105,9 +105,6 @@
                 if(a[this.sortParam] < b[this.sortParam]) return -1;
                 if(a[this.sortParam] > b[this.sortParam]) return 1;
                 return 0;
-            },
-            changeEn(user) {
-                this.saveUser(user);
             }
         },
         async mounted() {

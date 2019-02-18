@@ -56,7 +56,8 @@ export default {
         },
 
         saveAttr(context, payload) {
-            axios.post(`${process.env.VUE_APP_HOST}/atr/save`, payload,{
+            console.log(payload);
+            /*axios.post(`${process.env.VUE_APP_HOST}/atr/save`, payload,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
                     'Content-Type': 'application/json'
@@ -68,7 +69,7 @@ export default {
                 }, 4000);
 
                 context.dispatch('setAttrs');
-            });
+            });*/
         },
 
         deleteAttr(context, payload) {

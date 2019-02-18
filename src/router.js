@@ -58,7 +58,7 @@ export default new Router({
             component: Attractions
         },
         {
-            path: '/attraction/add-new',
+            path: '/attractions/add-new',
             name: 'add-new-attr',
             component: AddNewAttr
         },

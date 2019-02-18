@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label for="">Устройство</label>
                     <select @change="setDevice($event.target.value)" :value="attr.atrDevice.atrDeviceObjid" class="form-control" required>
-                        <option disabled selected>Парк</option>
+                        <option disabled selected>Устройство</option>
                         <option v-for="device in devices" :value="device.atrDeviceObjid" :key="device.parkId">{{device.atrDeviceDevAddress}}</option>
                     </select>
                 </div>
@@ -62,7 +62,7 @@
     export default {
         name: "EditAttr",
         computed: {
-            ...mapGetters('attrsModule', ['notification', 'attrs', 'attr', 'devices']),
+            ...mapGetters('attrsModule', ['notification', 'attr', 'devices']),
 
             id() {
                 return this.$route.params.id;
@@ -73,9 +73,6 @@
             ...mapMutations('attrsModule', ['setAttr', 'setDevice'])
         },
         created() {
-            if (!this.$store.state.attrs) {
-                this.setAttrs();
-            }
             this.setAttr(this.id);
             this.setDevices(this.attr.atrDevice.atrDeviceMainobjid);
         }

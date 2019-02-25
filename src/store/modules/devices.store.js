@@ -9,7 +9,8 @@ export default {
             state: false,
             message: null
         },
-        parks: null
+        parks: null,
+        deviceAddresses: null
     },
     getters: {
         devices(state) {
@@ -24,6 +25,9 @@ export default {
         parks(state) {
             return state.parks;
         },
+        deviceAddresses(state) {
+            return state.deviceAddresses;
+        }
     },
     mutations: {
         setDevices(state, data) {
@@ -43,6 +47,9 @@ export default {
             const indexToRemove = state.devices.findIndex(item => item.atrHostObjid === id);
             state.devices = state.devices.slice(indexToRemove, 1);
         },
+        setDeviceAddresses(state, data) {
+            state.deviceAddresses = data;
+        }
     },
     actions: { 
         async setDevices(context) {
@@ -98,5 +105,15 @@ export default {
 
             context.commit('setParks', data);
         },
+
+        async setDeviceAddresses(context, payload) {
+            console.log(payload);
+            let {data} = await axios.post(`${process.env.VUE_APP_HOST}/atrDevice/get`, payload,
+                {
+                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+            });
+
+            context.commit('setDeviceAddresses', data)
+        }
     }
 }

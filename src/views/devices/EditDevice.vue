@@ -35,20 +35,21 @@
     export default {
         name: "EditDevice",
         computed: {
-            ...mapGetters('devicesModule', ['notification', 'devices', 'device', 'parks']),
+            ...mapGetters('devicesModule', ['notification', 'devices', 'device', 'parks', 'deviceAddresses']),
 
             id() {
                 return this.$route.params.id;
             }
         },
         methods: {
-            ...mapActions('devicesModule', ['setDevices', 'saveDevice', 'setTypes', 'setParks']),
+            ...mapActions('devicesModule', ['setDevices', 'saveDevice', 'setTypes', 'setParks', 'setDeviceAddresses']),
             ...mapMutations('devicesModule', ['setDevice']),
         },
         created() {
             this.setDevices();
             this.setParks();
             this.setDevice(this.id);
+            this.setDeviceAddresses({atrDeviceMainobjid: this.id});
         }
     }
 </script>

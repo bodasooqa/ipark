@@ -44,17 +44,32 @@
                         <tr>
                             <th>Дата начала</th>
                             <th>Дата окончания</th>
-                            <th></th>
+                            <th>Действия</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr v-for="item in graphSettings">
                             <td><datetime input-class="form-control pointer" type="datetime"
-                                          format="dd-MM-yyyy HH:mm" v-model="item.graphSettingsStartdt"></datetime></td>
+                                          format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsStartdt"></datetime></td>
                             <td><datetime input-class="form-control pointer" type="datetime"
-                                          format="dd-MM-yyyy HH:mm" v-model="item.graphSettingsEnddt"></datetime></td>
+                                          format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsEnddt"></datetime></td>
                             <td class="text-center">
-                                <button @click="" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                <button @click="saveGraphSetting(item)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-save"></i></button>
+                                <button @click="deleteGraphSetting(item)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr v-if="newSettingState">
+                            <td><datetime input-class="form-control pointer" type="datetime" :phrases="{ok: 'Ок', cancel: 'Отмена'}"
+                                          value-zone="UTC+3" format="dd.MM.yyyy HH:mm" v-model="newSetting.graphSettingsStartdt"></datetime></td>
+                            <td><datetime input-class="form-control pointer" type="datetime" :phrases="{ok: 'Ок', cancel: 'Отмена'}"
+                                          value-zone="UTC+3" format="dd.MM.yyyy HH:mm" v-model="newSetting.graphSettingsEnddt"></datetime></td>
+                            <td class="text-center">
+                                <button @click="saveNewSetting(newSetting)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-save"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <button @click="newSettingState = true" class="btn btn-block btn-sm btn-success"><i class="fas fa-plus"></i></button>
                             </td>
                         </tr>
                         </tbody>
@@ -74,6 +89,16 @@
         components: {
             datetime: Datetime
         },
+        data() {
+            return {
+                newSettingState: false,
+                newSetting: {
+                    graphSettingsStartdt: null,
+                    graphSettingsEnddt: null,
+                    graphSettingsMainobjid: null
+                }
+            }
+        },
         computed: {
             ...mapGetters('graphsModule', ['notification', 'graphs', 'graph', 'parks', 'graphSettings']),
 
@@ -82,8 +107,12 @@
             }
         },
         methods: {
-            ...mapActions('graphsModule', ['setGraphs', 'saveGraph', 'setParks', 'setGraphSettings']),
+            ...mapActions('graphsModule', ['setGraphs', 'saveGraph', 'setParks', 'setGraphSettings', 'saveGraphSetting', 'deleteGraphSetting']),
             ...mapMutations('graphsModule', ['setGraph']),
+            saveNewSetting(setting) {
+                setting.graphSettingsMainobjid = this.id;
+                this.saveGraphSetting(setting);
+            }
         },
         created() {
             this.setGraphs();

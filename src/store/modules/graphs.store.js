@@ -123,6 +123,7 @@ export default {
                 context.dispatch('setGraphs');
             });
         },
+
         async setParks(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/park/get`, {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
@@ -130,13 +131,13 @@ export default {
 
             context.commit('setParks', data);
         },
+
         async setGraphSettings(context, payload) {
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/graphSettings/get`, {
-                    graphObjid: payload
-                },
-                {
-                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
-                });
+                graphObjid: payload
+            }, {
+                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+            });
 
             data = data.filter(item => {
                 return item.graphSettingsMainobjid === payload;
@@ -150,5 +151,35 @@ export default {
 
             context.commit('setGraphSettings', data);
         },
+
+        saveGraphSetting(context, payload) {
+            payload.graphSettingsStartdt = payload.graphSettingsStartdt.replace('T', ' ');
+            payload.graphSettingsStartdt = payload.graphSettingsStartdt.replace('.000Z', '');
+            payload.graphSettingsEnddt = payload.graphSettingsEnddt.replace('T', ' ');
+            payload.graphSettingsEnddt = payload.graphSettingsEnddt.replace('.000Z', '');
+
+            axios.post(`${process.env.VUE_APP_HOST}/graphSettings/save`, payload, {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                context.dispatch('setGraphSettings', payload.graphSettingsMainobjid)
+            })
+        },
+
+        deleteGraphSetting(context, payload) {
+            delete payload.graphSettingsStartdt;
+            delete payload.graphSettingsEnddt;
+
+            axios.post(`${process.env.VUE_APP_HOST}/graphSettings/delete`, payload, {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                context.dispatch('setGraphSettings', payload.graphSettingsMainobjid)
+            })
+        }
     }
 };

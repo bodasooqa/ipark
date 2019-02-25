@@ -21,7 +21,7 @@ export default new Vuex.Store({
       {
         name: 'Графики',
         icon: 'fas fa-calendar-alt',
-        url: 'schedules'
+        url: 'graphs'
       },
       {
         name: 'Карты',

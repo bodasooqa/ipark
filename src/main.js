@@ -7,6 +7,7 @@ import JsonExcel from 'vue-json-excel';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'vue-datetime/dist/vue-datetime.css'
 
 Vue.component('downloadExcel', JsonExcel);
 

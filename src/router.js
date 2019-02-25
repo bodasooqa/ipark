@@ -10,6 +10,9 @@ import AddNewUser from "./views/users/AddNewUser";
 import Attractions from "./views/attractions/Attractions";
 import AddNewAttr from "./views/attractions/AddNewAttr";
 import EditAttr from "./views/attractions/EditAttr";
+import Graphs from "./views/graphs/Graphs";
+import AddNewGraph from "./views/graphs/AddNewGraph";
+import EditGraph from "./views/graphs/EditGraph";
 
 Vue.use(Router);
 
@@ -66,6 +69,21 @@ export default new Router({
             path: '/attractions/edit/:id',
             name: 'edit-attr',
             component: EditAttr
+        },
+        {
+            path: '/graphs',
+            name: 'graphs',
+            component: Graphs
+        },
+        {
+            path: '/graphs/add-new',
+            name: 'add-new-graph',
+            component: AddNewGraph
+        },
+        {
+            path: '/graphs/edit/:id',
+            name: 'edit-graph',
+            component: EditGraph
         },
     ]
 });

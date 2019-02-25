@@ -1,0 +1,113 @@
+<template>
+    <div id="edit-graph">
+        <div class="card mb-3">
+            <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить график</div>
+            <div class="card-body">
+                <form @submit.prevent="saveGraph(graph)">
+                    <div class="form-group">
+                        <label for="">Наименование</label>
+                        <input v-model="graph.graphName" type="text" class="form-control" required placeholder="Наименование">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Приоритет</label>
+                        <input v-model="graph.graphPriority" type="text" class="form-control" required placeholder="IP-адрес">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Тип графика</label>
+                        <select v-model="graph.graphType" class="form-control" required>
+                            <option disabled selected>Тип приложения</option>
+                            <option v-for="type in types" :value="type.graphTypeId" :key="type.graphTypeId">{{type.graphTypeDescription}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Парк</label>
+                        <select v-model="graph.graphPark.parkId" class="form-control" required>
+                            <option disabled selected>Парк</option>
+                            <option v-for="park in parks" :value="park.parkId" :key="park.parkId">{{park.parkName}}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Сохранить</button>
+                    <button @click="$router.go(-1)" type="button" class="btn btn-danger">Назад</button>
+                </form>
+            </div>
+
+            <transition name="fade">
+                <div v-if="this.notification.state" class="alert alert-success" role="alert">{{notification.message}}</div>
+            </transition>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header"><i class="fas fa-tasks mr-2"></i>Настройка графика</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Дата начала</th>
+                            <th>Дата окончания</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="item in graphSettings">
+                            <td><datetime input-class="form-control pointer" type="datetime"
+                                          format="dd-MM-yyyy HH:mm" v-model="item.graphSettingsStartdt"></datetime></td>
+                            <td><datetime input-class="form-control pointer" type="datetime"
+                                          format="dd-MM-yyyy HH:mm" v-model="item.graphSettingsEnddt"></datetime></td>
+                            <td class="text-center">
+                                <button @click="" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import {mapActions, mapGetters, mapMutations} from "vuex";
+    import { Datetime } from 'vue-datetime';
+
+    export default {
+        name: "EditGraph",
+        components: {
+            datetime: Datetime
+        },
+        computed: {
+            ...mapGetters('graphsModule', ['notification', 'graphs', 'graph', 'parks', 'graphSettings']),
+
+            id() {
+                return this.$route.params.id;
+            }
+        },
+        methods: {
+            ...mapActions('graphsModule', ['setGraphs', 'saveGraph', 'setParks', 'setGraphSettings']),
+            ...mapMutations('graphsModule', ['setGraph']),
+        },
+        created() {
+            this.setGraphs();
+            this.setParks();
+            this.setGraph(this.id);
+            this.setGraphSettings(this.id);
+        }
+    }
+</script>
+
+<style lang="scss">
+    .pointer {
+        cursor: pointer;
+    }
+
+    .alert {
+        position: absolute;
+        width: 100%;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
+</style>

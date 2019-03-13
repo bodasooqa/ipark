@@ -14,9 +14,9 @@
                     </div>
                     <div class="form-group">
                         <label for="">Тип графика</label>
-                        <select v-model="graph.graphType" class="form-control" required>
+                        <select v-model="graph.graphType.graphTypeId" class="form-control" required>
                             <option disabled selected>Тип приложения</option>
-                            <option v-for="type in types" :value="type.graphTypeId" :key="type.graphTypeId">{{type.graphTypeDescription}}</option>
+                            <option v-for="type in types" :value="type.graphTypeId" :key="type.graphTypeId">{{type.graphTypeName}}</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -48,11 +48,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="item in graphSettings">
-                            <td><datetime input-class="form-control pointer" type="datetime"
-                                          format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsStartdt"></datetime></td>
-                            <td><datetime input-class="form-control pointer" type="datetime"
-                                          format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsEnddt"></datetime></td>
+                        <tr v-for="(item, i) in graphSettings" :key="i">
+                            <td><datetime input-class="form-control pointer" type="datetime" :phrases="{ok: 'Ок', cancel: 'Отмена'}"
+                                          value-zone="UTC+3" format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsStartdt"></datetime></td>
+                            <td><datetime input-class="form-control pointer" type="datetime" :phrases="{ok: 'Ок', cancel: 'Отмена'}"
+                                          value-zone="UTC+3" format="dd.MM.yyyy HH:mm" v-model="item.graphSettingsEnddt"></datetime></td>
                             <td class="text-center">
                                 <button @click="saveGraphSetting(item)" class="btn btn-sm btn-primary mr-1"><i class="fas fa-save"></i></button>
                                 <button @click="deleteGraphSetting(item)" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -100,14 +100,14 @@
             }
         },
         computed: {
-            ...mapGetters('graphsModule', ['notification', 'graphs', 'graph', 'parks', 'graphSettings']),
+            ...mapGetters('graphsModule', ['notification', 'graphs', 'graph', 'parks', 'types', 'graphSettings']),
 
             id() {
                 return this.$route.params.id;
             }
         },
         methods: {
-            ...mapActions('graphsModule', ['setGraphs', 'saveGraph', 'setParks', 'setGraphSettings', 'saveGraphSetting', 'deleteGraphSetting']),
+            ...mapActions('graphsModule', ['setGraphs', 'saveGraph', 'setParks', 'setTypes', 'setGraphSettings', 'saveGraphSetting', 'deleteGraphSetting']),
             ...mapMutations('graphsModule', ['setGraph']),
             saveNewSetting(setting) {
                 setting.graphSettingsMainobjid = this.id;
@@ -117,6 +117,7 @@
         created() {
             this.setGraphs();
             this.setParks();
+            this.setTypes();
             this.setGraph(this.id);
             this.setGraphSettings(this.id);
         }
@@ -129,7 +130,7 @@
     }
 
     .alert {
-        position: absolute;
+        position: absolute !important;
         width: 100%;
     }
 

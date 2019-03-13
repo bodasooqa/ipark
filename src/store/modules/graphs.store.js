@@ -10,6 +10,7 @@ export default {
             message: null
         },
         parks: null,
+        types: null,
         graphSettings: null
     },
     getters: {
@@ -24,6 +25,9 @@ export default {
         },
         parks(state) {
             return state.parks;
+        },
+        types(state) {
+            return state.types;
         },
         graphSettings(state) {
             return state.graphSettings;
@@ -43,6 +47,9 @@ export default {
         setParks(state, parks) {
             state.parks = parks;
         },
+        setTypes(state, types) {
+            state.types = types;
+        },
         setNotification(state, message) {
             state.notification.state = !state.notification.state;
             state.notification.message = message;
@@ -60,8 +67,7 @@ export default {
         },
 
         saveGraph(context, payload) {
-            console.log(payload);
-            /*const data = () => {
+            const data = () => {
                 if (payload.graphObjid) {
                     return {
                         graphObjid: payload.graphObjid,
@@ -71,7 +77,7 @@ export default {
                         graphType: {
                             graphTypeId: payload.graphType.graphTypeId
                         },
-                        graphIpAddress: payload.graphIpAddress,
+                        graphPriority: payload.graphPriority,
                         graphName: payload.graphName,
                     };
                 } else {
@@ -82,8 +88,8 @@ export default {
                         graphType: {
                             graphTypeId: payload.type
                         },
-                        graphIpAddress: payload.ip,
-                        graphName: payload.name,
+                        graphName: payload.graphName,
+                        graphPriority: payload.graphPriority,
                     };
                 }
             };
@@ -100,7 +106,7 @@ export default {
                 }, 4000);
 
                 context.dispatch('setGraphs');
-            });*/
+            });
         },
 
         deleteGraph(context, payload) {
@@ -130,6 +136,14 @@ export default {
             });
 
             context.commit('setParks', data);
+        },
+
+        async setTypes(context) {
+            let {data} = await axios.get(`${process.env.VUE_APP_HOST}/graphType/get`, {
+                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+            });
+
+            context.commit('setTypes', data);
         },
 
         async setGraphSettings(context, payload) {

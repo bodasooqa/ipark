@@ -15,7 +15,7 @@
                     <label for="">Тип графика</label>
                     <select v-model="graph.type" class="form-control" required>
                         <option disabled selected>Тип графика</option>
-                        <option v-for="type in types" :value="type.graphTypeId" :key="type.graphTypeId">{{type.graphTypeDescription}}</option>
+                        <option v-for="type in types" :value="type.graphTypeId" :key="type.graphTypeId">{{type.graphTypeName}}</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -52,10 +52,10 @@
             }
         },
         computed: {
-            ...mapGetters('graphsModule', ['parks'])
+            ...mapGetters('graphsModule', ['parks', 'types'])
         },
         methods: {
-            ...mapActions('graphsModule', ['saveGraph', 'setParks']),
+            ...mapActions('graphsModule', ['saveGraph', 'setParks', 'setTypes']),
 
             addGraph() {
                 this.saveGraph(this.graph);
@@ -63,8 +63,11 @@
             }
         },
         created() {
-            if (!this.$store.parks) {
+            if (!this.parks) {
                 this.setParks();
+            }
+            if (!this.types) {
+                this.setTypes();
             }
         }
     }

@@ -10,7 +10,8 @@ export default {
             message: null
         },
         parks: null,
-        deviceAddresses: null
+        deviceAddresses: null,
+        deviceAddress: null
     },
     getters: {
         devices(state) {
@@ -27,6 +28,9 @@ export default {
         },
         deviceAddresses(state) {
             return state.deviceAddresses;
+        },
+        deviceAddress(state) {
+            return state.deviceAddress;
         }
     },
     mutations: {
@@ -47,9 +51,17 @@ export default {
             const indexToRemove = state.devices.findIndex(item => item.atrHostObjid === id);
             state.devices = state.devices.slice(indexToRemove, 1);
         },
+        deleteDeviceAddress(state, id) {
+            state.deviceAddresses = state.deviceAddresses.filter(item => {
+                return item.atrDeviceObjid !== id;
+            });
+        },
         setDeviceAddresses(state, data) {
             state.deviceAddresses = data;
-        }
+        },
+        setDeviceAddress(state, id) {
+            state.deviceAddress = state.deviceAddresses.find(item => item.atrDeviceObjid === id);
+        },
     },
     actions: { 
         async setDevices(context) {
@@ -60,8 +72,6 @@ export default {
         },
 
         saveDevice(context, payload) {
-            console.log(payload);
-
             axios.post(`${process.env.VUE_APP_HOST}/atrHost/save`, payload,{
                 headers: {
                     'Authorization': 'Basic YWRtaW46YWRtaW4=',
@@ -107,13 +117,43 @@ export default {
         },
 
         async setDeviceAddresses(context, payload) {
-            console.log(payload);
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/atrDevice/get`, payload,
                 {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
 
             context.commit('setDeviceAddresses', data)
+        },
+
+        saveDeviceAddress(context, payload) {
+            axios.post(`${process.env.VUE_APP_HOST}/atrDevice/save`, payload, {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                context.commit('setNotification', 'Успешно сохранено');
+                setTimeout(() => {
+                    context.commit('setNotification', 'Успешно сохранено');
+                }, 4000);
+            })
+        },
+
+        deleteDeviceAddress(context, payload) {
+            axios.post(`${process.env.VUE_APP_HOST}/atrDevice/delete`, {
+                atrDeviceObjid: payload
+            }, {
+                headers: {
+                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Content-Type': 'application/json'
+                }
+            }).then(() => {
+                context.commit('deleteDeviceAddress', payload);
+                context.commit('setNotification', 'Успешно удалено');
+                setTimeout(() => {
+                    context.commit('setNotification', 'Успешно удалено');
+                }, 4000);
+            });
         }
     }
 }

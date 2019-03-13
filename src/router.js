@@ -16,6 +16,9 @@ import EditGraph from "./views/graphs/EditGraph";
 import Devices from "./views/devices/Devices";
 import AddNewDevice from "./views/devices/AddNewDevice";
 import EditDevice from "./views/devices/EditDevice";
+import EditAddressDevice from "./views/devices/EditAddressDevice";
+import NotFound from "./views/NotFound";
+import AddNewAddressDevice from "./views/devices/AddNewAddressDevice";
 
 Vue.use(Router);
 
@@ -103,5 +106,20 @@ export default new Router({
             name: 'edit-device',
             component: EditDevice
         },
+        {
+            path: '/devices/edit/:id/device-address/:device-address-id',
+            name: 'edit-address-device',
+            component: EditAddressDevice
+        },
+        {
+            path: '/devices/edit/:id/device-address/add-new',
+            name: 'add-new-address-device',
+            component: AddNewAddressDevice
+        },
+        {
+            path: '*',
+            name: '404',
+            component: NotFound
+        }
     ]
 });

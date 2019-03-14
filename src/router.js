@@ -19,6 +19,9 @@ import EditDevice from "./views/devices/EditDevice";
 import EditAddressDevice from "./views/devices/EditAddressDevice";
 import NotFound from "./views/NotFound";
 import AddNewAddressDevice from "./views/devices/AddNewAddressDevice";
+import Groups from "./views/groups/Groups";
+import AddNewGroup from "./views/groups/AddNewGroup";
+import EditGroup from "./views/groups/EditGroup";
 
 Vue.use(Router);
 
@@ -115,6 +118,21 @@ export default new Router({
             path: '/devices/edit/:id/device-address/add-new',
             name: 'add-new-address-device',
             component: AddNewAddressDevice
+        },
+        {
+            path: '/groups',
+            name: 'groups',
+            component: Groups
+        },
+        {
+            path: '/groups/add-new',
+            name: 'add-new-group',
+            component: AddNewGroup
+        },
+        {
+            path: '/groups/edit/:id',
+            name: 'edit-group',
+            component: EditGroup
         },
         {
             path: '*',

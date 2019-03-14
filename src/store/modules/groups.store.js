@@ -8,7 +8,9 @@ export default {
             state: false,
             message: null
         },
-        group: null
+        group: null,
+        attrs: null,
+        users: null
     },
     getters: {
         groups(state) {
@@ -19,6 +21,12 @@ export default {
         },
         group(state) {
             return state.group;
+        },
+        attrs(state) {
+            return state.attrs
+        },
+        users(state) {
+            return state.users
         }
     },
     mutations: {
@@ -35,6 +43,12 @@ export default {
         setNotification(state, message) {
             state.notification.state = !state.notification.state;
             state.notification.message = message;
+        },
+        setAttrs(state, data) {
+            state.attrs = data;
+        },
+        setUsers(state, data) {
+            state.users = data;
         }
     },
     actions: {
@@ -94,5 +108,19 @@ export default {
                 context.dispatch('setGroups');
             });
         },
+
+        async setAttrs(context, payload) {
+            let {data} = await axios.post(`${process.env.VUE_APP_HOST}/groupAtr/get`, payload, {
+                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+            });
+            context.commit('setAttrs', data);
+        },
+
+        async setUsers(context, payload) {
+            let {data} = await axios.post(`${process.env.VUE_APP_HOST}/groupUser/get`, payload, {
+                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+            });
+            context.commit('setUsers', data);
+        }
     }
 };

@@ -1,6 +1,6 @@
 <template>
     <div class="card mb-3">
-        <div class="card-header"><i class="fas fa-table mr-2"></i>Приложения</div>
+        <div class="card-header"><i class="fas fa-table mr-2"></i>Группы</div>
         <div class="card-body">
             <button @click="$router.push('groups/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
 

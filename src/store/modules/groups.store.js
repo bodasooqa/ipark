@@ -121,6 +121,31 @@ export default {
                 headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
             });
             context.commit('setUsers', data);
+        },
+
+        saveAttr(context, payload) {
+            if (payload.checked) {
+                axios.post(`${process.env.VUE_APP_HOST}/groupAtr/save`, payload, {
+                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                });
+            } else {
+                axios.post(`${process.env.VUE_APP_HOST}/groupAtr/delete`, payload, {
+                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                });
+            }
+
+        },
+
+        saveUser(context, payload) {
+            if (payload.checked) {
+                axios.post(`${process.env.VUE_APP_HOST}/groupUser/save`, payload, {
+                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                });
+            } else {
+                axios.post(`${process.env.VUE_APP_HOST}/groupUser/delete`, payload, {
+                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                });
+            }
         }
     }
 };

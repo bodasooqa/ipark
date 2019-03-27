@@ -5,7 +5,7 @@
             <form @submit.prevent="addAttr">
                 <div class="form-group">
                     <label for="">Устройство</label>
-                    <select @change="setDevice($event.target.value)" :value="attr.atrDeviceObjid" class="form-control" required>
+                    <select @change="setDevice($event.target.value)" v-model="attr.atrDeviceObjid" class="form-control" required>
                         <option disabled selected>Парк</option>
                         <option v-for="device in devices" :value="device.atrDeviceObjid" :key="device.parkId">{{device.atrDeviceDevAddress}}</option>
                     </select>
@@ -89,15 +89,17 @@
         },
         methods: {
             ...mapActions('attrsModule', ['saveAttr', 'setDevices']),
-            ...mapMutations('attrsModule', ['setDevice']),
 
             addAttr() {
                 this.saveAttr(this.attr);
                 this.$router.go(-1);
+            },
+            setDevice(id) {
+                this.attr.atrDevice = this.devices.find(item => item.atrDeviceObjid === id);
             }
         },
         created() {
-
+            this.setDevices();
         }
     }
 </script>

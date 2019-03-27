@@ -124,6 +124,7 @@ export default {
         },
 
         saveAttr(context, payload) {
+            payload.groupAtrObjid = payload.atrObjid;
             if (payload.checked) {
                 axios.post(`${process.env.VUE_APP_HOST}/groupAtr/save`, payload, {
                     headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
@@ -137,6 +138,7 @@ export default {
         },
 
         saveUser(context, payload) {
+            payload.groupUserObjid = payload.userObjid;
             if (payload.checked) {
                 axios.post(`${process.env.VUE_APP_HOST}/groupUser/save`, payload, {
                     headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}

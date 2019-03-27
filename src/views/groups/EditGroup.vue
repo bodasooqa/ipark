@@ -97,8 +97,8 @@
         created() {
             this.setGroups();
             this.setGroup(this.id);
-            this.setAttrs({groupObjid: this.id});
-            this.setUsers({groupObjid: this.id});
+            this.setAttrs({groupAtrMainobjid: this.id});
+            this.setUsers({groupUserMainobjid: this.id});
         }
     }
 </script>

@@ -22,6 +22,7 @@ import AddNewAddressDevice from "./views/devices/AddNewAddressDevice";
 import Groups from "./views/groups/Groups";
 import AddNewGroup from "./views/groups/AddNewGroup";
 import EditGroup from "./views/groups/EditGroup";
+import Cashbox from "./views/reports/cashbox/Cashbox";
 
 Vue.use(Router);
 
@@ -133,6 +134,11 @@ export default new Router({
             path: '/groups/edit/:id',
             name: 'edit-group',
             component: EditGroup
+        },
+        {
+            path: '/cashbox-reports',
+            name: 'cashbox',
+            component: Cashbox
         },
         {
             path: '*',

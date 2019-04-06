@@ -23,6 +23,12 @@ import Groups from "./views/groups/Groups";
 import AddNewGroup from "./views/groups/AddNewGroup";
 import EditGroup from "./views/groups/EditGroup";
 import Cashbox from "./views/reports/cashbox/Cashbox";
+import Pass from "./views/reports/pass/Pass";
+import Card from "./views/reports/card/Card";
+import Carry from "./views/reports/carry/Carry";
+import Cards from "./views/cards/Cards";
+import AddNewCard from "./views/cards/AddNewCard";
+import EditCard from "./views/cards/EditCard";
 
 Vue.use(Router);
 
@@ -96,6 +102,21 @@ export default new Router({
             component: EditGraph
         },
         {
+            path: '/cards',
+            name: 'cards',
+            component: Cards
+        },
+        {
+            path: '/cards/add-new',
+            name: 'add-new-card',
+            component: AddNewCard
+        },
+        {
+            path: '/cards/edit/:id',
+            name: 'edit-card',
+            component: EditCard
+        },
+        {
             path: '/devices',
             name: 'devices',
             component: Devices
@@ -139,6 +160,21 @@ export default new Router({
             path: '/cashbox-reports',
             name: 'cashbox',
             component: Cashbox
+        },
+        {
+            path: '/pass-reports',
+            name: 'pass',
+            component: Pass
+        },
+        {
+            path: '/card-reports',
+            name: 'card',
+            component: Card
+        },
+        {
+            path: '/carry-reports',
+            name: 'carry',
+            component: Carry
         },
         {
             path: '*',

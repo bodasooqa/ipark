@@ -1,48 +1,26 @@
 <template>
   <div id="app">
 
-    <Header></Header>
+    <authorized v-if="token"></authorized>
 
-    <div id="wrapper">
-
-      <sidebar></sidebar>
-
-      <div id="content-wrapper">
-        <div class="container-fluid">
-
-          <router-view/>
-
-        </div>
-
-        <footer class="sticky-footer" :class="{toggled: toggled}">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright © iPark 2019</span>
-            </div>
-          </div>
-        </footer>
-
-      </div>
-
-    </div>
+    <not-authorized v-else></not-authorized>
 
   </div>
 </template>
 
 <script>
+  import Authorized from "./components/Authorized";
+  import NotAuthorized from "./components/NotAuthorized";
   import {mapGetters} from "vuex";
-
-  import Header from "./components/Header";
-  import Sidebar from "./components/Sidebar";
 
   export default {
     name: "app",
     components: {
-      Header, Sidebar
+      Authorized, NotAuthorized
     },
-    computed: {
-      ...mapGetters(['toggled'])
-    }
+      computed: {
+        ...mapGetters('authModule', ['token'])
+      }
   }
 </script>
 

@@ -17,7 +17,7 @@ export default {
     },
     actions: {
         setToken(context, payload) {
-            axios.post(`${process.env.VUE_APP_LOGIN_HOST}/login?username=${payload.username}&password=${payload.password}`).then(res => {
+            axios.post(`${process.env.VUE_APP_HOST}/login?username=${payload.username}&password=${payload.password}`).then(res => {
                 context.commit('setToken', res.data);
             });
         }

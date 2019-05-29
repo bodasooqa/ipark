@@ -42,17 +42,17 @@ export default new Router({
             component: Home
         },
         {
-            path: '/applications',
-            name: 'applications',
+            path: '/apps',
+            name: 'apps',
             component: Applications
         },
         {
-            path: '/applications/add-new',
+            path: '/apps/add-new',
             name: 'add-new-app',
             component: AddNewApp
         },
         {
-            path: '/applications/edit/:id',
+            path: '/apps/edit/:id',
             name: 'edit-app',
             component: EditApp
         },
@@ -72,17 +72,17 @@ export default new Router({
             component: EditUser
         },
         {
-            path: '/attractions',
-            name: 'attractions',
+            path: '/attrs',
+            name: 'attrs',
             component: Attractions
         },
         {
-            path: '/attractions/add-new',
+            path: '/attrs/add-new',
             name: 'add-new-attr',
             component: AddNewAttr
         },
         {
-            path: '/attractions/edit/:id',
+            path: '/attrs/edit/:id',
             name: 'edit-attr',
             component: EditAttr
         },
@@ -157,22 +157,22 @@ export default new Router({
             component: EditGroup
         },
         {
-            path: '/cashbox-reports',
+            path: '/rptKassa',
             name: 'cashbox',
             component: Cashbox
         },
         {
-            path: '/pass-reports',
+            path: '/rptEntrance',
             name: 'pass',
             component: Pass
         },
         {
-            path: '/card-reports',
+            path: '/rptCard',
             name: 'card',
             component: Card
         },
         {
-            path: '/carry-reports',
+            path: '/rptKassaOldCardReplace',
             name: 'carry',
             component: Carry
         },

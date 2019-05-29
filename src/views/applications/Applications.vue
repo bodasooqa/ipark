@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-table mr-2"></i>Приложения</div>
         <div class="card-body">
-            <button @click="$router.push('applications/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
+            <button @click="$router.push('apps/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
 
             <download-excel class="d-inline-block" :data="excelData">
                 <button class="btn btn-primary mr-2 mb-3">Экспорт</button>
@@ -92,7 +92,7 @@
         methods: {
             ...mapActions('appsModule', ['setApps', 'deleteApp']),
             editApp(id) {
-                this.$router.push(`/applications/edit/${id}`);
+                this.$router.push(`/apps/edit/${id}`);
             },
             removeApp(id) {
                 this.deleteApp(id);

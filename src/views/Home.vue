@@ -1,9 +1,9 @@
 <template>
   <div class="home row">
     <div class="col-12">
-      <router-link v-for="item in sidebarMenu" :key="item.url" :to="item.url" class="card mb-3">
+      <router-link v-for="item in mainMenu" :key="item.alias" :to="item.alias" class="card mb-3">
         <div class="card-body">
-          <i class="fa-icon" :class="item.icon"></i>
+<!--          <i class="fa-icon" :class="item.icon"></i>-->
           {{item.name}}
         </div>
       </router-link>
@@ -17,7 +17,7 @@ import {mapGetters} from "vuex";
 export default {
   name: 'Home',
   computed: {
-    ...mapGetters(['sidebarMenu'])
+    ...mapGetters('authModule', ['mainMenu'])
   }
 }
 </script>

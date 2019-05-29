@@ -1,5 +1,8 @@
 <template>
     <div class="bg-dark login-page">
+        <div v-if="notification" class="alert alert-danger position-absolute w-50" role="alert">
+            <strong>Ошибка:</strong> Некорректные данные для входа. Попробуйте еще раз.
+        </div>
         <div class="card login-form">
             <div class="card-body">
                 <form @submit.prevent="sendForm">
@@ -19,7 +22,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
 
     export default {
         name: "NotAuthorized",
@@ -30,13 +33,17 @@
             }
         },
         computed: {
-            ...mapGetters('authModule', ['token'])
+            ...mapGetters('authModule', ['token', 'notification'])
         },
         methods: {
             ...mapActions('authModule', ['setToken']),
+            ...mapMutations('authModule', ['setNotification']),
             sendForm() {
                 this.setToken({username: this.username, password: this.password});
             }
+        },
+        created() {
+            this.setNotification(true);
         }
     }
 </script>
@@ -49,5 +56,14 @@
             width: 400px;
             margin: auto;
         }
+    }
+
+    .alert {
+        left: 0;
+        right: 0;
+        margin: auto;
+        top: 1rem;
+        color: #fff;
+        background: rgba(255, 0, 27, 0.15);
     }
 </style>

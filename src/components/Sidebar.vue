@@ -1,8 +1,8 @@
 <template>
     <ul class="sidebar navbar-nav" :class="{toggled: toggled}">
-        <li v-for="item in sidebarMenu" :key="item.url" class="nav-item">
-            <router-link class="nav-link" :to="`/${item.url}`">
-                <i class="fa-fw" :class="item.icon"></i>
+        <li v-for="item in mainMenu" :key="item.alias" class="nav-item">
+            <router-link class="nav-link" :to="`/${item.alias}`">
+<!--                <i class="fa-fw" :class="item.icon"></i>-->
                 <span>{{item.name}}</span>
             </router-link>
         </li>
@@ -10,12 +10,19 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
         name: "Sidebar",
         computed: {
-            ...mapGetters(['sidebarMenu', 'toggled'])
+            ...mapGetters(['sidebarMenu', 'toggled']),
+            ...mapGetters('authModule', ['mainMenu'])
+        },
+        methods: {
+            ...mapActions('authModule', ['setMenu'])
+        },
+        created() {
+            this.setMenu();
         }
     }
 </script>

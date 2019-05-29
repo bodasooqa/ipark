@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-table mr-2"></i>Атракционы</div>
         <div class="card-body">
-            <button @click="$router.push('attractions/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
+            <button @click="$router.push('attrs/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
@@ -92,7 +92,7 @@
         methods: {
             ...mapActions('attrsModule', ['setAttrs', 'deleteAttr', 'saveAttr']),
             editAttr(id) {
-                this.$router.push(`/attractions/edit/${id}`);
+                this.$router.push(`/attrs/edit/${id}`);
             },
             removeAttr(id) {
                 this.deleteAttr(id);

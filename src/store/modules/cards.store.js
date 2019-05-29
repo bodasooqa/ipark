@@ -41,7 +41,7 @@ export default {
         async setCards(context) {
             const {data} = await axios.get(`${process.env.VUE_APP_HOST}/cardType/get`, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4='
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`
                 }
             });
             context.commit('setCards', data);
@@ -49,7 +49,7 @@ export default {
         saveCard(context, payload) {
             axios.post(`${process.env.VUE_APP_HOST}/cardType/save`, payload,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -68,7 +68,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/cardType/delete`, data,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {

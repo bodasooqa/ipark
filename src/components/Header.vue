@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <button @click="toggleSidebar" class="btn btn-link btn-sm text-white order-1 order-sm-0">
+        <button @click="toggle" class="btn btn-link btn-sm text-white order-1 order-sm-0">
             <i class="fas fa-bars"></i>
         </button>
 
@@ -21,7 +21,7 @@
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="#">Activity Log</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                    <a @click="setToken('')" class="dropdown-item pointer">Logout</a>
                 </div>
             </li>
         </ul>
@@ -30,13 +30,14 @@
 </template>
 
 <script>
+    import {mapMutations} from "vuex";
+
     export default {
-        name: "Header",
         methods: {
-            toggleSidebar() {
-                this.$store.commit('toggle');
-            }
+            ...mapMutations(['toggle']),
+            ...mapMutations('authModule', ['setToken'])
         },
+        name: "Header"
     }
 </script>
 

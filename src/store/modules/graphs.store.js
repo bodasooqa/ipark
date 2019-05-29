@@ -61,7 +61,7 @@ export default {
     actions: {
         async setGraphs(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/graph/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setGraphs', data);
         },
@@ -96,7 +96,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/graph/save`, data(),{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -116,7 +116,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/graph/delete`, data, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -132,7 +132,7 @@ export default {
 
         async setParks(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/park/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setParks', data);
@@ -140,7 +140,7 @@ export default {
 
         async setTypes(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/graphType/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setTypes', data);
@@ -150,7 +150,7 @@ export default {
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/graphSettings/get`, {
                 graphObjid: payload
             }, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             data = data.filter(item => {
@@ -174,7 +174,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/graphSettings/save`, payload, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -188,7 +188,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/graphSettings/delete`, payload, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {

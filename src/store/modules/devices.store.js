@@ -66,7 +66,7 @@ export default {
     actions: { 
         async setDevices(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/atrHost/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setDevices', data);
         },
@@ -74,7 +74,7 @@ export default {
         saveDevice(context, payload) {
             axios.post(`${process.env.VUE_APP_HOST}/atrHost/save`, payload,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -94,7 +94,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/atrHost/delete`, data,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -110,7 +110,7 @@ export default {
 
         async setParks(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/park/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setParks', data);
@@ -119,7 +119,7 @@ export default {
         async setDeviceAddresses(context, payload) {
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/atrDevice/get`, payload,
                 {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setDeviceAddresses', data)
@@ -128,7 +128,7 @@ export default {
         saveDeviceAddress(context, payload) {
             axios.post(`${process.env.VUE_APP_HOST}/atrDevice/save`, payload, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -144,7 +144,7 @@ export default {
                 atrDeviceObjid: payload
             }, {
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {

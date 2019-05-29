@@ -68,7 +68,7 @@ export default {
     actions: {
         async setApps(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/app/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setApps', data);
         },
@@ -103,7 +103,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/app/save`, data(),{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -123,7 +123,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/app/delete`, data,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -139,7 +139,7 @@ export default {
 
         async setParks(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/park/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setParks', data);
@@ -147,7 +147,7 @@ export default {
 
         async setTypes(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/appType/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
 
             context.commit('setTypes', data);

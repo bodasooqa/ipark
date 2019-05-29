@@ -54,7 +54,7 @@ export default {
     actions: {
         async setGroups(context) {
             let {data} = await axios.get(`${process.env.VUE_APP_HOST}/group/get`, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setGroups', data);
         },
@@ -75,7 +75,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/group/save`, data(),{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -95,7 +95,7 @@ export default {
 
             axios.post(`${process.env.VUE_APP_HOST}/group/delete`, data,{
                 headers: {
-                    'Authorization': 'Basic YWRtaW46YWRtaW4=',
+                    'Authorization': `Bearer ${context.rootGetters['authModule/token']}`,
                     'Content-Type': 'application/json'
                 }
             }).then(() => {
@@ -111,14 +111,14 @@ export default {
 
         async setAttrs(context, payload) {
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/groupAtr/get`, payload, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setAttrs', data);
         },
 
         async setUsers(context, payload) {
             let {data} = await axios.post(`${process.env.VUE_APP_HOST}/groupUser/get`, payload, {
-                headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
             });
             context.commit('setUsers', data);
         },
@@ -127,11 +127,11 @@ export default {
             payload.groupAtrObjid = payload.atrObjid;
             if (payload.checked) {
                 axios.post(`${process.env.VUE_APP_HOST}/groupAtr/save`, payload, {
-                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                    headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
                 });
             } else {
                 axios.post(`${process.env.VUE_APP_HOST}/groupAtr/delete`, payload, {
-                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                    headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
                 });
             }
 
@@ -141,11 +141,11 @@ export default {
             payload.groupUserObjid = payload.userObjid;
             if (payload.checked) {
                 axios.post(`${process.env.VUE_APP_HOST}/groupUser/save`, payload, {
-                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                    headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
                 });
             } else {
                 axios.post(`${process.env.VUE_APP_HOST}/groupUser/delete`, payload, {
-                    headers: {'Authorization': 'Basic YWRtaW46YWRtaW4='}
+                    headers: {'Authorization': `Bearer ${context.rootGetters['authModule/token']}`}
                 });
             }
         }

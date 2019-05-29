@@ -7,14 +7,14 @@
             <div class="card-body">
                 <form @submit.prevent="sendForm">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Username</label>
-                        <input v-model="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter username">
+                        <label for="exampleInputEmail1">Имя пользователя</label>
+                        <input v-model="username" type="text" class="form-control" id="exampleInputEmail1" placeholder="Имя пользователя">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label for="exampleInputPassword1">Пароль</label>
+                        <input v-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль">
                     </div>
-                    <button :disabled="!(username && password)" type="submit" class="btn btn-primary">Submit <i class="fas fa-sign-out-alt"></i></button>
+                    <button :disabled="!(username && password)" type="submit" class="btn btn-primary">Отправить <i class="fas fa-sign-out-alt"></i></button>
                 </form>
             </div>
         </div>

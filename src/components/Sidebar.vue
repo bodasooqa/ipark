@@ -2,7 +2,7 @@
     <ul class="sidebar navbar-nav" :class="{toggled: toggled}">
         <li v-for="item in mainMenu" :key="item.alias" class="nav-item">
             <router-link class="nav-link" :to="`/${item.alias}`">
-<!--                <i class="fa-fw" :class="item.icon"></i>-->
+                <i class="fas fa-angle-right pr-2"></i>
                 <span>{{item.name}}</span>
             </router-link>
         </li>
@@ -11,6 +11,8 @@
 
 <script>
     import {mapActions, mapGetters} from "vuex";
+
+    import $ from 'jquery';
 
     export default {
         name: "Sidebar",
@@ -23,6 +25,10 @@
         },
         created() {
             this.setMenu();
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         }
     }
 </script>

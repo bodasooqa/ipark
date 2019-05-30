@@ -1,8 +1,11 @@
 <template>
     <div class="bg-dark login-page">
-        <div v-if="notification" class="alert alert-danger position-absolute w-50" role="alert">
-            <strong>Ошибка:</strong> Некорректные данные для входа. Попробуйте еще раз.
-        </div>
+        <transition name="fade">
+            <div v-if="notification" class="alert alert-danger position-absolute w-50" role="alert">
+                <strong>Ошибка:</strong> Некорректные данные для входа. Попробуйте еще раз.
+            </div>
+        </transition>
+
         <div class="card login-form">
             <div class="card-body">
                 <form @submit.prevent="sendForm">
@@ -65,5 +68,12 @@
         top: 1rem;
         color: #fff;
         background: rgba(255, 0, 27, 0.15);
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .2s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 </style>

@@ -1,9 +1,10 @@
 <template>
     <div id="app">
 
-        <authorized v-if="token"></authorized>
-
-        <not-authorized v-else></not-authorized>
+        <transition name="fade">
+            <authorized v-if="token"></authorized>
+            <not-authorized v-else></not-authorized>
+        </transition>
 
     </div>
 </template>
@@ -47,7 +48,7 @@
         position: absolute;
         right: 0;
         bottom: 0;
-        width: calc(100% - #{$sidebar-base-width});
+        width: calc(100% - #{$sidebar-collapsed-width});
         height: $sticky-footer-height;
         background-color: $gray-200;
         -webkit-transition: all 0.2s;
@@ -57,7 +58,7 @@
         transition: all 0.2s;
 
         &.toggled {
-            width: calc(100% - #{$sidebar-collapsed-width});
+            width: 100%;
         }
 
         .copyright {
@@ -83,6 +84,13 @@
 
             }
         }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .2s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
 </style>

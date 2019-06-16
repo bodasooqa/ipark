@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить устройство</div>
         <div class="card-body">
-            <form @submit.prevent="saveDeviceAddress(deviceAddress)">
+            <form @submit.prevent="saveDeviceAddress(deviceAddress); $router.go(-1)">
                 <div class="form-group">
                     <label for="">Наименование</label>
                     <input v-model="deviceAddress.atrDeviceDevAddress" type="text" class="form-control" required placeholder="Наименование">

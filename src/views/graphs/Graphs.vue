@@ -4,6 +4,10 @@
         <div class="card-body">
             <button @click="$router.push('graphs/add-new')" class="btn btn-success mr-2 mb-3">Добавить</button>
 
+            <download-excel class="d-inline-block" :data="excelData">
+                <button class="btn btn-primary mr-2 mb-3">Экспорт</button>
+            </download-excel>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -83,7 +87,7 @@
             }
         },
         computed: {
-            ...mapGetters('graphsModule', ['graphs', 'notification']),
+            ...mapGetters('graphsModule', ['graphs', 'notification', 'excelData']),
         },
         methods: {
             ...mapActions('graphsModule', ['setGraphs', 'deleteGraph']),

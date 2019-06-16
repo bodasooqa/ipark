@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить карту</div>
         <div class="card-body">
-            <form @submit.prevent="saveCard(card)">
+            <form @submit.prevent="saveCard(card); $router.go(-1)">
                 <input type="hidden" v-model="card.cardTypeObjid">
                 <div class="form-group">
                     <label for="">Наименование</label>

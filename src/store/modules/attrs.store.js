@@ -9,7 +9,8 @@ export default {
             state: false,
             message: null
         },
-        devices: null
+        devices: null,
+        excelData: null
     },
     getters: {
         attrs(state) {
@@ -23,11 +24,32 @@ export default {
         },
         devices(state) {
             return state.devices;
+        },
+        excelData(state) {
+            return state.excelData;
         }
     },
     mutations: {
         setAttrs(state, attrs) {
             state.attrs = attrs;
+
+            state.excelData = attrs.map(item => {
+                const excel_item = {
+                    id: item.atrObjid,
+                    ip: item.atrIpaddress,
+                    code: item.atrCode,
+                    name: item.atrName,
+                    formatName: item.atrFormatname,
+                    device: item.atrDevice.atrDeviceDevAddress,
+                    greenTime: item.atrGreentime,
+                    redTime: item.atrRedtime,
+                    releTime: item.atrReletime,
+                    releInterval: item.atrReleinterval,
+                    messageTime: item.atrMsgtime,
+                    enabled: item.atrEnabled
+                };
+                return excel_item;
+            })
         },
         setAttr(state, id) {
             state.attr = state.attrs.find(item => item.atrObjid === id);

@@ -11,7 +11,8 @@ export default {
         },
         parks: null,
         deviceAddresses: null,
-        deviceAddress: null
+        deviceAddress: null,
+        excelData: null
     },
     getters: {
         devices(state) {
@@ -31,11 +32,25 @@ export default {
         },
         deviceAddress(state) {
             return state.deviceAddress;
+        },
+        excelData(state) {
+            return state.excelData;
         }
     },
     mutations: {
         setDevices(state, data) {
             state.devices = data;
+
+            state.excelData = data.map(item => {
+                const excel_item = {
+                    id: item.atrHostObjid,
+                    ip: item.atrHostIpaddress,
+                    name: item.atrHostName,
+                    park: item.atrHostPark.parkName,
+                    port: item.atrHostPort
+                };
+                return excel_item;
+            })
         },
         setDevice(state, id) {
             state.device = state.devices.find(item => item.atrHostObjid === id);

@@ -9,7 +9,8 @@ export default {
             state: false,
             message: null
         },
-        priv: null
+        priv: null,
+        excelData: null
     },
     getters: {
         users(state) {
@@ -23,11 +24,24 @@ export default {
         },
         priv(state) {
             return state.priv;
+        },
+        excelData(state) {
+            return state.excelData;
         }
     },
     mutations: {
         setUsers(state, users) {
             state.users = users;
+
+            state.excelData = users.map(item => {
+                const excel_item = {
+                    id: item.userObjid,
+                    fio: item.userFio,
+                    name: item.userName,
+                    password: item.userPassword
+                };
+                return excel_item;
+            })
         },
         setNotification(state, message) {
             state.notification.state = !state.notification.state;

@@ -3,7 +3,7 @@
         <div class="card mb-3">
             <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить пользователя</div>
             <div class="card-body">
-                <form @submit.prevent="saveUser(user)">
+                <form @submit.prevent="saveUser(user); $router.go(-1)">
                     <div class="form-group">
                         <label for="">ФИО</label>
                         <input v-model="user.userFio" type="text" class="form-control" required placeholder="Наименование">

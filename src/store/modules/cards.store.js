@@ -9,6 +9,7 @@ export default {
             state: false,
             message: null
         },
+        excelData: null
     },
     getters: {
         cards(state) {
@@ -20,10 +21,23 @@ export default {
         notification(state) {
             return state.notification;
         },
+        excelData(state) {
+            return state.excelData;
+        },
     },
     mutations: {
         setCards(state, data) {
             state.cards = data;
+
+            state.excelData = data.map(item => {
+                const excel_item = {
+                    id: item.cardTypeObjid,
+                    name: item.cardTypeName,
+                    main: item.cardTypeMainType,
+                    working: item.cardTypeWorking
+                };
+                return excel_item;
+            })
         },
         setCard(state, id) {
             state.card = state.cards.find(item => item.cardTypeObjid === id);

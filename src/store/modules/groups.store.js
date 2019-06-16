@@ -10,7 +10,8 @@ export default {
         },
         group: null,
         attrs: null,
-        users: null
+        users: null,
+        excelData: null
     },
     getters: {
         groups(state) {
@@ -27,11 +28,22 @@ export default {
         },
         users(state) {
             return state.users
+        },
+        excelData(state) {
+            return state.excelData
         }
     },
     mutations: {
         setGroups(state, data) {
             state.groups = data;
+
+            state.excelData = data.map(item => {
+                const excel_item = {
+                    id: item.groupObjid,
+                    name: item.groupName
+                };
+                return excel_item;
+            })
         },
         setGroup(state, id) {
             state.group = state.groups.find(item => item.groupObjid === id);

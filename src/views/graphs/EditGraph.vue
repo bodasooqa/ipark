@@ -3,7 +3,7 @@
         <div class="card mb-3">
             <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить график</div>
             <div class="card-body">
-                <form @submit.prevent="saveGraph(graph)">
+                <form @submit.prevent="saveGraph(graph); $router.go(-1)">
                     <div class="form-group">
                         <label for="">Наименование</label>
                         <input v-model="graph.graphName" type="text" class="form-control" required placeholder="Наименование">

@@ -11,7 +11,8 @@ export default {
         },
         parks: null,
         types: null,
-        graphSettings: null
+        graphSettings: null,
+        excelData: null
     },
     getters: {
         graphs(state) {
@@ -31,11 +32,25 @@ export default {
         },
         graphSettings(state) {
             return state.graphSettings;
+        },
+        excelData(state) {
+            return state.excelData;
         }
     },
     mutations: {
         setGraphs(state, graphs) {
             state.graphs = graphs;
+
+            state.excelData = graphs.map(item => {
+                const excel_item = {
+                    id: item.graphObjid,
+                    priority: item.graphPriority,
+                    name: item.graphName,
+                    park: item.graphPark.parkName,
+                    type: item.graphType.graphTypeName
+                };
+                return excel_item;
+            })
         },
         setGraph(state, id) {
             state.graph = state.graphs.find(item => item.graphObjid === id);

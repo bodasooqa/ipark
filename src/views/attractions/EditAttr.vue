@@ -3,7 +3,7 @@
         <div class="card mb-3">
             <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить аттракцион</div>
             <div class="card-body">
-                <form @submit.prevent="saveAttr(attr)">
+                <form @submit.prevent="saveAttr(attr); $router.go(-1)">
                     <div class="form-group">
                         <label for="">Устройство</label>
                         <select @change="setDevice($event.target.value)" :value="attr.atrDevice.atrDeviceObjid" class="form-control" required>

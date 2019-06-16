@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header"><i class="fas fa-pen mr-2"></i>Изменить приложение</div>
         <div class="card-body">
-            <form @submit.prevent="saveApp(app)">
+            <form @submit.prevent="saveApp(app); $router.go(-1)">
                 <div class="form-group">
                     <label for="">Наименование</label>
                     <input v-model="app.appName" type="text" class="form-control" required placeholder="Наименование">

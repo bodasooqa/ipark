@@ -6,11 +6,12 @@ import devicesModule from './devices.store';
 import groupsModule from './groups.store';
 import cardsModule from './cards.store';
 import authModule from './auth.store';
+import reportModule from './report.store';
 
 const modules = {
     appsModule, usersModule, attrsModule,
     graphsModule, devicesModule, groupsModule,
-    cardsModule, authModule
+    cardsModule, authModule, reportModule
 };
 
 export default modules;

@@ -3,17 +3,16 @@
         <div class="card-header"><i class="fas fa-table mr-2"></i>Отчет по проходам</div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12 mt-3">
+                <div class="col-6 mt-3">
                     <div class="form-group">
                         <multiselect :options="nameCards()" v-model="input.cardtypes" :multiple="true"  :close-on-select="false"
-                                     :allow-empty="true" placeholder="Тип карты"></multiselect>
+                                     hideSelected :allow-empty="true" placeholder="Тип карты"></multiselect>
                     </div>
                 </div>
-                <div class="col-12 mt-3">
+                <div class="col-6 mt-3">
                     <div class="form-group">
-                        <multiselect  :options="nameGroups()"
-                                      :multiple="true" v-model="input.groups" :close-on-select="false"
-                                     :allow-empty="true" placeholder="Группа"></multiselect>
+                        <multiselect  :options="nameGroups()" :multiple="true" v-model="input.groups" :close-on-select="false"
+                                      hideSelected :allow-empty="true" placeholder="Группа"></multiselect>
                     </div>
                 </div>
                 <div class="col-12 mt-3"><span>Период</span></div>
@@ -30,9 +29,12 @@
                         <datetime v-model="input.enddt" input-class="form-control" format="dd.MM.yyyy HH:mm" type="datetime" :min-datetime="input.startdt"></datetime>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 my-3 text-center">
-                <button class="btn btn-success" @click="sendData()" :disabled="!input.cardtypes || !input.groups || !input.startdt || !input.enddt">Выполнить</button>
+                <div class="col-12 my-3">
+                    <button class="btn btn-success" @click="sendData()" :disabled="!input.startdt && !input.enddt">Выполнить</button>
+                    <download-excel class="d-inline-block" :data="reports">
+                        <button :disabled="!reports" class="btn btn-primary ml-2">Экспорт</button>
+                    </download-excel>
+                </div>
             </div>
 
             <table class="table table-bordered table-hover table-striped col-12" id="dataTable" width="100%" cellspacing="0">
@@ -66,7 +68,7 @@
 <script>
     import Multiselect from 'vue-multiselect';
     import { Datetime } from 'vue-datetime';
-    import {mapActions, mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
     import moment from "moment";
 
 
@@ -74,8 +76,8 @@
         data() {
             return {
                 input: {
-                    cardtypes: null,
-                    groups: null,
+                    cardtypes: '',
+                    groups: '',
                     startdt: null,
                     enddt: null,
                 },
@@ -91,26 +93,21 @@
         components: { Multiselect, Datetime },
         computed: {
             ...mapGetters('reportModule', ['reports']),
-
             ...mapGetters('cardsModule', ['cards']),
-
             ...mapGetters('groupsModule', ['groups']),
-
-
-
         },
         methods: {
             ...mapActions('reportModule', ['setReport']),
+            ...mapMutations('reportModule', {clearData: 'setReport'}),
             sendData() {
-                this.input.cardtypes = this.input.cardtypes.join(', ');
-                this.input.groups = this.input.groups.join(', ');
+                if (this.input.cardtypes) this.input.cardtypes = this.input.cardtypes.join(', ');
+                if (this.input.groups) this.input.groups = this.input.groups.join(', ');
                 this.input.startdt = moment(this.input.startdt).format('YYYY-MM-DD hh:mm:ss');
                 this.input.enddt = moment(this.input.enddt).format('YYYY-MM-DD hh:mm:ss');
-                //this.input.startdt = "2018-06-20 07:50:00";
-                //this.input.enddt = "2019-06-20 07:50:00";
+
                 this.setReport(this.input);
-                this.input.cardtypes = null;
-                this.input.groups = null;
+                this.input.cardtypes = '';
+                this.input.groups = '';
             },
             nameCards() {
                 return this.cards.map(item => {
@@ -134,8 +131,8 @@
         mounted() {
             this.nameCards();
             this.nameGroups();
+            this.clearData([]);
         }
-
     }
 
 </script>

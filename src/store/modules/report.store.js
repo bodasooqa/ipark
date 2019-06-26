@@ -12,7 +12,6 @@ export default {
     mutations: {
         setReport(state, res) {
             state.reports = res.data;
-
         }
     },
     actions: {
